@@ -370,8 +370,6 @@ This project is licensed under the MIT License.
 
 Computer Science Graduate | Java Developer | Data Analytics Enthusiast
 
-GitHub: :contentReference[oaicite:5]{index=5}
-
 ---
 
 ## ⭐ Support
