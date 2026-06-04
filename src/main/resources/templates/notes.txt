@@ -1,0 +1,45 @@
+User opens browser
+        ↓
+@Controller
+        ↓
+DashboardController
+        ↓
+@Service
+        ↓
+DashboardService
+        ↓
+GitHub JSON URL
+        ↓
+ObjectMapper
+        ↓
+List<Dashboard>
+        ↓
+Controller
+        ↓
+index.html
+        ↓
+User sees Tableau dashboards
+
+
+1. DashboardService.java
+User opens website
+        ↓
+DashboardController
+        ↓
+DashboardService.getDashboards()
+        ↓
+Open GitHub JSON URL
+        ↓
+Read dashboards.json
+        ↓
+ObjectMapper translates JSON
+        ↓
+List<Dashboard>
+        ↓
+Return list
+        ↓
+Controller
+        ↓
+index.html
+        ↓
+Show Tableau dashboards

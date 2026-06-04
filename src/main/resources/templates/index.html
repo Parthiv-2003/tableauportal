@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Tableau Analytics Portal</title>
+
+    <script type="module"
+            src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js">
+    </script>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            font-family:'Segoe UI',sans-serif;
+            min-height:100vh;
+            transition:all 0.6s ease;
+            padding:40px;
+        }
+
+        .container{
+            max-width:1600px;
+            margin:auto;
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:15px;
+            font-size:3rem;
+            color:white;
+        }
+
+        .subtitle{
+            text-align:center;
+            color:white;
+            opacity:0.9;
+            margin-bottom:40px;
+        }
+
+        .card{
+            background:white;
+            padding:30px;
+            border-radius:25px;
+
+            box-shadow:
+            0 15px 40px rgba(0,0,0,0.15);
+
+            margin-bottom:30px;
+        }
+
+        .selector{
+
+            width:100%;
+            padding:16px;
+
+            font-size:18px;
+
+            border-radius:15px;
+
+            border:none;
+
+            background:#f5f5f5;
+        }
+
+        .dashboard-title{
+            margin-top:20px;
+            margin-bottom:10px;
+            font-size:2rem;
+        }
+
+        .category{
+            display:inline-block;
+
+            padding:8px 18px;
+
+            border-radius:30px;
+
+            color:white;
+
+            font-weight:bold;
+
+            margin-bottom:15px;
+        }
+
+        .description{
+            color:#666;
+            margin-bottom:25px;
+        }
+
+        .viz-container{
+            width:100%;
+            height:80vh;
+            overflow:hidden;
+            border-radius:20px;
+        }
+
+        tableau-viz{
+            width:100% !important;
+            height:100% !important;
+        }
+
+        .footer{
+            text-align:center;
+            margin-top:25px;
+            color:white;
+        }
+
+        /* THEMES */
+
+        .sales-theme{
+            background:
+            linear-gradient(135deg,#0f172a,#1e3a8a);
+        }
+
+        .personal-theme{
+            background:
+            linear-gradient(135deg,#581c87,#7e22ce);
+        }
+
+        .finance-theme{
+            background:
+            linear-gradient(135deg,#064e3b,#059669);
+        }
+
+        .hr-theme{
+            background:
+            linear-gradient(135deg,#991b1b,#dc2626);
+        }
+
+        .default-theme{
+            background:
+            linear-gradient(135deg,#1f2937,#111827);
+        }
+
+    </style>
+
+</head>
+
+<body class="default-theme">
+
+<div class="container">
+
+    <h1><svg xmlns="http://www.w3.org/2000/svg" width="70" height="38" fill="currentColor" class="bi bi-file-bar-graph" viewBox="0 0 16 16">
+  <path d="M4.5 12a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5zm3 0a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5zm3 0a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5z"/>
+  <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1"/>
+</svg>Tableau Analytics Portal</h1>
+
+    <p class="subtitle">
+        Interactive Business Intelligence Platform
+    </p>
+
+    <div class="card">
+
+        <select id="dashboardSelector"
+                class="selector">
+
+            <option value="">
+                Select Dashboard
+            </option>
+
+            <option
+                    th:each="dashboard,stat : ${dashboards}"
+                    th:value="${stat.index}"
+
+                    th:text="${dashboard.title}">
+            </option>
+
+        </select>
+
+    </div>
+
+    <div class="card"
+         id="dashboardCard"
+         style="display:none;">
+
+        <h2 class="dashboard-title"
+            id="title">
+        </h2>
+
+        <div class="category"
+             id="category">
+        </div>
+
+        <p class="description"
+           id="description">
+        </p>
+
+        <div class="viz-container">
+
+            <tableau-viz
+                    id="viz">
+            </tableau-viz>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        Tableau Dashboard Portal © 2026
+    </div>
+
+</div>
+
+<script th:inline="javascript">
+
+    const dashboards =
+    /*[[${dashboards}]]*/ [];
+
+    const selector =
+        document.getElementById(
+            "dashboardSelector"
+        );
+
+    selector.addEventListener(
+        "change",
+        function(){
+
+            const index = this.value;
+
+            if(index === ""){
+                return;
+            }
+
+            const dashboard =
+                dashboards[index];
+
+            document.getElementById(
+                "dashboardCard"
+            ).style.display = "block";
+
+            document.getElementById(
+                "title"
+            ).innerText =
+                dashboard.title;
+
+            document.getElementById(
+                "description"
+            ).innerText =
+                dashboard.description;
+
+            const category =
+                document.getElementById(
+                    "category"
+                );
+
+            category.innerText =
+                dashboard.category;
+
+            const viz =
+                document.getElementById(
+                    "viz"
+                );
+
+            viz.src =
+                dashboard.url;
+
+            const body =
+                document.body;
+
+            body.className = "";
+
+            switch(
+                dashboard.category.toLowerCase()
+            ){
+
+                case "sales":
+
+                    body.classList.add(
+                        "sales-theme"
+                    );
+
+                    category.style.background =
+                        "#2563eb";
+
+                    break;
+
+                case "personal":
+
+                    body.classList.add(
+                        "personal-theme"
+                    );
+
+                    category.style.background =
+                        "#9333ea";
+
+                    break;
+
+                case "finance":
+
+                    body.classList.add(
+                        "finance-theme"
+                    );
+
+                    category.style.background =
+                        "#059669";
+
+                    break;
+
+                case "hr":
+
+                    body.classList.add(
+                        "hr-theme"
+                    );
+
+                    category.style.background =
+                        "#dc2626";
+
+                    break;
+
+                default:
+
+                    body.classList.add(
+                        "default-theme"
+                    );
+
+                    category.style.background =
+                        "#6b7280";
+
+            }
+
+        });
+
+</script>
+
+</body>
+</html>
