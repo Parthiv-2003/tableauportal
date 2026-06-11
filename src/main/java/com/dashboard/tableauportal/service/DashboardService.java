@@ -1,8 +1,9 @@
-package com.dashoard.tableauportal.service;
+package com.dashboard.tableauportal.service;
 
+import com.dashboard.tableauportal.model.Dashboard;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.dashoard.tableauportal.model.Dashboard;
+
 import org.springframework.stereotype.Service;
 
 import java.net.URL;

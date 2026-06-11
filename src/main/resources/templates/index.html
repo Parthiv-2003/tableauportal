@@ -209,9 +209,11 @@
 
 <script th:inline="javascript">
 
+   
     const dashboards =
     /*[[${dashboards}]]*/ [];
-
+    console.log(dashboards);
+        
     const selector =
         document.getElementById(
             "dashboardSelector"

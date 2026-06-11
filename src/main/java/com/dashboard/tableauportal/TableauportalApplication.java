@@ -1,4 +1,4 @@
-package com.dashoard.tableauportal;
+package com.dashboard.tableauportal;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

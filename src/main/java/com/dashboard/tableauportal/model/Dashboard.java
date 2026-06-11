@@ -1,4 +1,4 @@
-package com.dashoard.tableauportal.model;
+package com.dashboard.tableauportal.model;
 
 public class Dashboard {
     private String title;
